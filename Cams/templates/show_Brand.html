@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>Digital Camera World Catlog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <style>
+    .btn{
+      background-color: lightblue;
+      border-color: white;
+      color:black;
+  }
+  .new:hover{
+      background-color: #347AB7;
+      color: white;
+      text-decoration: none;
+  }
+  .edit:hover{
+      background-color: #347AB7;
+      border-color: #337AB7;
+      color: white;
+      text-decoration: none;
+  }
+  .delete{
+
+      float: right;
+  }
+  .delete:hover{
+      background-color: #D9534F;
+      border-color: #D9534F;
+      color: white;
+      text-decoration: none;
+  }
+  .navbar-brand{
+      font-size: 25px;
+      padding-bottom: 0;
+  }
+  .alert,.new{
+      margin-top:20px;
+  }
+  .card-img-top{
+  padding: 15px;
+}
+.card-body{
+    padding:0px;
+    padding-top: 10px;
+}
+.title-brand{
+    text-align: center;
+    padding-top: 15px;
+    color: black;
+
+}
+.title-brand:hover{
+    color: #327ECC;
+    text-decoration: none;
+}
+</style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Digital Camera World</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+
+                {% if not cur_user['email'] %}
+                    <a href="/login" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-in" style="font-size:22px;color:white"> </i> Login</a>
+                {% endif %}
+                {% if cur_user['user_id'] %}
+                    <a href="/logout" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-out" style="font-size:22px;color:white"> </i> Logout</a>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </header>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="alert alert-info">
+        {% for message in messages %}
+        <li><strong>{{message}}</strong></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    <main>
+
+    <!-- Page Content -->
+        <div class="container">
+        {% if cur_user['user_id'] %}
+        <div>
+            <a href="{{url_for('newBrand')}}" class="btn btn-link new">Add New Brand</a>
+        </div>
+        {% endif %}
+      <!-- Page Heading -->
+      <h1 class="my-4"></h1>
+
+      <div class="row">
+            {% for b in brands %}
+            <div class="col-lg-4 col-md-4 col-sm-6 catlog-item">
+
+                <div class="card h-100">
+                    <a href="{{url_for('showModels',brand_id=b.id)}}" class="title-brand"><h2>{{b.name}}</h2></a>
+                    <div class="card-body">
+
+                        {% if cur_user['user_id']==b.user_id %}
+                        <a href="{{url_for('editBrand',brand_id=b.id)}}" class="btn btn-link edit ">Edit</a>
+                        <a href="{{url_for('deleteBrand',brand_id=b.id)}}" class="btn btn-link delete ">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+    </main>
+  </body>
+
+</html>

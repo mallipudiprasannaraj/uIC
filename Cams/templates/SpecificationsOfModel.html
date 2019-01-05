@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Digital Camera World Catlog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <style>
+    .btn{
+      background-color: white;
+      border-color: white;
+      color:black;
+      padding-top: 5px;
+
+    }
+    .edit:hover{
+      background-color: #337AB7;
+      border-color: #337AB7;
+      color: white;
+      text-decoration: none;
+    }
+    .delete{
+      float: right;
+    }
+    .delete:hover{
+      background-color: #D9534F;
+      border-color: #D9534F;
+      color: white;
+      text-decoration: none;
+    }
+    .navbar-brand{
+      font-size: 30px;
+    }
+	.heading{
+	padding:8px;
+	text-align:center;
+	}
+	.card{
+		padding-left:15px;
+		padding-right:15px;
+	}
+	.specifications{
+	padding:10px;
+	border:1px solid #E1D9D9;
+	margin-left:35px;
+	border-radius:2%;
+	}
+  .row{
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  .back{
+    font-size:30px;
+    color:black;
+    margin: 20px;
+    margin-bottom: 0;
+}
+.back:hover{
+    text-decoration: none;
+}
+.specifications img{
+  padding: 5px;
+}
+.des{
+  margin-bottom: 25px;
+}
+</style>
+  </head>
+
+  <body>
+    <header>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="padding-bottom: 0px;">
+      <div class="container">
+        <a class="navbar-brand" href="#">Digital Camera World</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              {% if not cur_user['email'] %}
+                    <a href="/login" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-in" style="font-size:22px;color:white"> </i> Login</a>
+                {% endif %}
+                {% if cur_user['user_id'] %}
+                    <a href="/logout" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-out" style="font-size:22px;color:white"> </i> Logout</a>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </header>
+
+    <main>
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="alert alert-info">
+        {% for message in messages %}
+        <li><strong>{{message}}</strong></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    <a href="{{url_for('showModels',brand_id=brand.id)}}" class="fa fa-mail-reply-all back"></a>
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4"></h1>
+
+      <div class="row">
+
+
+		<div class="col-lg-5 col-md-4 col-sm-6 catlog-item">
+
+          <div class="card h-100"><h3 class="heading">{{ brand.name}} {{model.name}}</h3>
+            <img class="card-img-top" src="{{model.picture}}" alt="{model.name}" >
+             <!--User logged in and belongs to brand-->
+             {% if cur_user['user_id']==brand.user_id %}
+            <div style="padding-top:10px;">
+            <a href="{{url_for('editModel', brand_id=brand.id, model_id=model.id)}}" class="btn btn-link edit "><b>Edit</b></a>
+            <a href="{{url_for('deleteModel', brand_id=brand.id, model_id=model.id)}}" class="btn btn-link delete "><b>Delete</b></a></div>
+          </div>
+          {% endif %}
+		  {% if cur_user['user_id']!=brand.user_id %}
+          <!--User Not logged in-->
+          <div style="color: white;">
+            <p><b>Edit</b></p>
+            <p ><b>Delete</b></p></div>
+          </div>
+		  {% endif %}
+        </div >
+		<div class='specifications'>
+			<h4 style="padding-bottom:5px;">Specifications : </h4>
+			<img src="{{url_for('static',filename='images/modelname.jpg')}}"> <b>Model Name :</b> {{model.modelname}}</img></br>
+
+            <img src="{{url_for('static',filename='images/brands.jpg')}}"> <b>Brands :</b> {{model.brands}}</img></br>
+
+            <img src="{{url_for('static',filename='images/modelnumber.png')}}"> <b>Model Number :</b> {{model.modelnumber}}</img></br>
+
+            <img src="{{url_for('static',filename='images/ctype.jpg')}}"> <b>Ctype :</b> {{model.ctype}}</img></br>
+
+            <img src="{{url_for('static',filename='images/color.png')}}"> <b>Colors :</b> {{model.colors}}</img></br>
+
+            <img src="{{url_for('static',filename='images/wifi.jpg')}}"> <b>WiFi :</b> {{model.wifi}}</img></br>
+
+            <img src="{{url_for('static',filename='images/face.png')}}"> <b>Face Detection :</b> {{model.facedetection}}</img></br>
+
+            <img src="{{url_for('static',filename='images/pixels.jpg')}}"> <b>Pixels :</b> {{model.pixels}}</img></br>
+
+            <img src="{{url_for('static',filename='images/flash.jpg')}}"> <b>Bulitinflash :</b> {{model.builtinflash}}</img></br>
+
+            <img src="{{url_for('static',filename='images/videoformat.png')}}"> <b>videoformat :</b> {{model.videoformat}}</img></br>
+
+            <img src="{{url_for('static',filename='images/price.png')}}"> <b>Price :</b> {{model.price}}</img></br>
+
+		</div>
+
+      </div>
+      <!-- /.row -->
+      <div class="des">
+        <img src="{{url_for('static',filename='images/description.png')}}"> <b>Description :</b> {{model.description}}</img></br>
+      </div>
+
+    </div>
+    <!-- /.container -->
+    </main>
+  </body>
+
+</html>

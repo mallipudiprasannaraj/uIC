@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Digital Camera World Catlog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static',filename='css/main.css.css')}}" rel="stylesheet">
+    <style>
+    .btn{
+      background-color: white;
+      border-color: white;
+      color:black;
+  }
+
+  .navbar-brand{
+      font-size: 30px;
+  }
+
+ .card-new {
+  max-width: 25rem;
+}
+.card-header{
+	background-color:#ED7322;
+	color:white;
+}
+.outer{
+	margin-top:100px;
+}
+.back{
+    font-size:30px;
+    color:black;
+    margin-left: 20px;
+    margin-top:40px;
+
+}
+.back:hover{
+    text-decoration: none;
+}
+</style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="padding-bottom: 0px;">
+      <div class="container">
+        <p class="navbar-brand" href="#">Digital Camera World</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                {% if not cur_user['email'] %}
+                    <a href="/login" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-in" style="font-size:22px;color:white"> </i> Login</a>
+                {% endif %}
+                {% if cur_user['user_id'] %}
+                    <a href="/logout" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-out" style="font-size:22px;color:white"> </i> Logout</a>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </header>
+    <main>
+    <a href="{{url_for('showModels',brand_id=brand.id)}}" class="fa fa-mail-reply-all back"></a>
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Edit {{model.name}} Model </div>
+      <div class="card-body">
+        <form action="{{url_for('editModel',brand_id=brand.id,model_id=model.id)}} " method='POST'>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+              <label for="modalName">Model Name</label>
+              <input class="form-control" id="modalName" type="text"  name="name" required placeholder="Enter model name">
+            </div>
+            <div class="col-md-6">
+              <label for="Brands">Brands </label>
+              <input class="form-control" id="Brands" type="text"  name="Brands" required placeholder="Enter Brands">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="processor">Model Number</label>
+                  <input class="form-control" id="modelnumber" type="text"  name="modelnumber" required placeholder="Enter Model Number">
+                </div>
+                <div class="col-md-6">
+                  <label for="pic"Ctype</label>
+                  <input class="form-control" id="type" type="text"  name="ctype" required placeholder="Enter ctype">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="ram">Colors</label>
+                  <input class="form-control" id="colors" type="text"  name="colors" required placeholder="Enter Colors">
+                </div>
+                <div class="col-md-6">
+                  <label for="storage">WiFi</label>
+                  <input class="form-control" id="wifi" type="text"  name="wifi" required placeholder="Enter wifi">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="cam">FaceDetection</label>
+                  <input class="form-control" id="FD" type="text"  name="facedetection" required placeholder="Enter facedetection">
+                </div>
+                <div class="col-md-6">
+                  <label for="battery">Pixels</label>
+                  <input class="form-control" id="pixels" type="text" title="35pxl" name="pixels" required placeholder="Enter Pixels">
+                </div>
+              </div>
+            </div>
+
+  		  <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="conn">Builtinflash</label>
+                  <input class="form-control" id="built" type="text" title="Yes/No" name="flash" required placeholder="Enter flash">
+                </div>
+                <div class="col-md-6">
+                  <label for="Video">Video Format</label>
+                  <input class="form-control" id="video" type="text"  name="video format" required placeholder="Enter Video Format">
+                </div>
+              </div>
+            </div>
+
+
+
+  		  <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="price">Price</label>
+                  <input class="form-control" id="price" type="text"  title="Rs 10,999 ..." name="price" required placeholder="Enter Price">
+                </div>
+                <div class="col-md-6">
+                  <label for="des">Description</label>
+                  <input class="form-control" id="des" type="text"  name="des" required placeholder="Describe About Adding Model">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="des">Picture</label>
+              <input class="form-control" id="pic" type="text"  name="pic" required placeholder="picture">
+            </div>
+          </div>
+        </div>
+
+
+          <input type="submit" class="btn btn-success btn-block" required  value="Save">
+        </form>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

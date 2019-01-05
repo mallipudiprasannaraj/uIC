@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Mobile World Catlog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <style>
+    .btn{
+      background-color: lightblue;
+      border-color: white;
+      color:black;
+  }
+
+  .navbar-brand{
+      font-size: 30px;
+      padding-bottom: 0;
+  }
+ .card-new {
+  max-width: 25rem;
+}
+.card-header{
+	background-color:#ED6322;
+	color:white;
+}
+.outer{
+	margin-top:100px;
+}
+.back{
+    font-size:30px;
+    color:black;
+    margin: 20px;
+}
+.back:hover{
+    text-decoration: none;
+}
+</style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Digital Camera World</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                {% if not cur_user['email'] %}
+                    <a href="/login" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-in" style="font-size:22px;color:white"> </i> Login</a>
+                {% endif %}
+                {% if cur_user['user_id'] %}
+                    <a href="/logout" style="font-size:15px;color:white;text-decoration: None;"><i class="fa fa-sign-out" style="font-size:22px;color:white"> </i> Logout</a>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </header>
+    <main>
+      <a href="{{url_for('showBrands')}}" class="fa fa-mail-reply-all back"></a>
+        <div class="container outer">
+    <div class="card card-new mx-auto mt-5">
+      <div class="card-header">Edit {{br.name}} Brand</div>
+      <div class="card-body">
+        <form action="{{url_for('editBrand', brand_id=br.id)}}" method='POST'>
+
+          <div class="form-group ">
+            <div class="form-row">
+              <div class="col-md-12">
+                <label for="brandName">Brand Name :</label>
+                <input class="form-control" id="brandName" type="text" name="name" value="{{br.name}}" title="stating letter upper case" required>
+              </div>
+            </div>
+          </div>
+
+
+          <input type="submit" class="btn btn-success btn-block"  value="Save">
+
+        </form>
+      </div>
+    </div>
+  </div>
+    </main>
+  </body>
+
+</html>

@@ -1,0 +1,21 @@
+body {
+  padding-top: 50px;
+  background-color: lightblue;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+.catlog-item {
+  margin-bottom: 30px;
+}
+
+.pagination {
+  margin-bottom: 30px;
+}
+.form-control{
+  color:#DDA0DD;
+}
